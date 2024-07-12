@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import glob
 import os, csv, sys
 
@@ -18,4 +19,11 @@ import os, csv, sys
 
 files = glob.glob("*.csv") 
 df = pd.concat((pd.read_csv(f, header = 0) for f in files))
+# df.drop([""], axis=1, inplace=True)
+
+# df.drop(df.iloc[1:] , axis=1, inplace=True)
+df['id'] = [x for x in range(len(df))]
+
+# df.drop("id", axis='columns',inplace=True)
+# df.rename(columns = {'id2':'id'}, inplace = True)
 df.to_csv("output.csv")
