@@ -23,6 +23,21 @@ app.get('/employee_directory', async (req, res) => {
         res.status(500).send("Network Error");
     }
 });
+
+app.get('/employee_directory/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+        const info = await collection.find({id: Number(id)}).toArray();
+        res.json(info);
+    } catch (err) {
+        console.error("Error:", err);
+        res.status(500).send("Error :( ");
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
