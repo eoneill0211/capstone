@@ -1,0 +1,28 @@
+{
+  "result": [
+    "repeat(300)",
+    {
+      "name": {
+        "first": "firstName()",
+        "last": "lastName()"
+      },
+      "username": "this.name.first-this.name.last",
+      "password": "password()",
+      "phoneNumber": "phoneNumber()",
+      "location": {
+        "street": "street()",
+        "city": "city()",
+        "state": "state()",
+        "country": "country()",
+        "zip": "zipCode()",
+        "coordinates": {
+          "latitude": "latitude()",
+          "longitude": "longitude()"
+        }
+      },
+      "job":  "jobTitle()",
+      "salary": "price()",
+      "objectId": "objectId()"
+    }
+  ]
+}
