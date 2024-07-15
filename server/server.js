@@ -38,6 +38,21 @@ app.get('/employee_directory/:id', async (req, res) => {
     }
 });
 
+app.post('/employee_directory/search', async (req, res) => {
+    try {
+        const { searchTerm } = req.body;
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+        const regex = new RegExp(searchTerm, 'i'); // Create a case-insensitive regular expression
+        const socks = await collection.find({id: Number(id)}).toArray();
+        res.json(socks);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send('Hmm, something doesn\'t smell right... Error searching for socks');
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

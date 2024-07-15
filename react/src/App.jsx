@@ -1,40 +1,62 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import Employees from './components/Employees'
+import EmployeeId from './components/EmployeeId'
+import Search from './components/Search'
+import { Context } from './components/Context'
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
+  Router,
   Route,
   Routes,
   Link
 } from "react-router-dom";
 import './App.css'
 
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [context, setContext] = useState(2);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(import.meta.env.VITE_SOCKS_API_URL);
+
+        if (!response.ok) {
+          throw new Error('Data could not be fetched!');
+        }
+        const json_response = await response.json();
+        setData(json_response); // assign JSON response to the data variable.
+      } catch (error) {
+        console.error('Error fetching socks:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+
+      <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+        <div className="container-fluid">
+          <div className="row">
+            <Context.Provider value={[context, setContext]}>
+
+              <Routes>
+
+                <Route path="/employee_directory" element={<Employees />} />
+                <Route path="/employee_directory/:id" element={<EmployeeId />} />
+
+              </Routes>
+            </Context.Provider>
+
+          </div>
+        </div>
+      </main>
+    </BrowserRouter>
   )
 }
 
