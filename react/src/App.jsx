@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Employees from './components/Employees'
 import EmployeeId from './components/EmployeeId'
 import Search from './components/Search'
-import { Context } from './components/Context'
+import Role from './components/Role'
+
 import {
   BrowserRouter,
   Router,
@@ -16,7 +17,9 @@ import './App.css'
 
 
 function App() {
-  const [context, setContext] = useState(2);
+
+
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -37,27 +40,29 @@ function App() {
     fetchData();
   }, []);
 
-  return (
-    <BrowserRouter>
+  window.topicText = "test"
 
-      <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-        <div className="container-fluid">
-          <div className="row">
-            <Context.Provider value={[context, setContext]}>
+  return (
+
+      <BrowserRouter>
+        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+          <div className="container-fluid">
+            <div className="row">
 
               <Routes>
+                <Route path="/" element={<Role />} />
 
                 <Route path="/employee_directory" element={<Employees />} />
                 <Route path="/employee_directory/:id" element={<EmployeeId />} />
 
               </Routes>
-            </Context.Provider>
-
+            </div>
           </div>
-        </div>
-      </main>
-    </BrowserRouter>
+        </main>
+      </BrowserRouter>
+
   )
 }
+
 
 export default App

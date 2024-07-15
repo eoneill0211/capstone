@@ -1,94 +1,73 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import Employees from './Employees'
-import { Context } from './Context'
 
 
 
 const EmployeeId = (props) => {
 
-  const [characterData, setCharacterData] = useState([]);
+  const [employeeData, setEmployeeData] = useState([]);
+
+  //get a specific employee's data
+
   useEffect(() => {
-    const fetchCharacterData = async () => {
+    const fetchEmployeeData = async () => {
       try {
         const lastItem = window.location.href.substring(window.location.href.lastIndexOf('/') + 1)
-        // const response = await fetch(import.meta.env.VITE_SWAPI_URL+ '/'+ lastItem);
-        const response = await fetch("http://localhost:3000/employee_directory" + '/' + lastItem);
+        const response = await fetch("http://localhost:3000/employee_directory/" + lastItem);
 
-        //console.log(import.meta.env.VITE_SWAPI_URL+ '/' +lastItem);
         if (!response.ok) {
           throw new Error('Data could not be fetched!');
         }
         const json_response = await response.json();
-        setCharacterData(json_response);
-        console.log(characterData);
+        setEmployeeData(json_response);
+        console.log(employeeData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    fetchCharacterData();
-  }, [characterData]);
+    fetchEmployeeData();
+  }, [employeeData]);
 
 
 
   console.log("We are here");
 
-  const [context, setContext] = useContext(Context);
-
+  //used to search for specific employee, see first div
 
   const [searchTerm, setSearchTerm] = useState('');
   const handleChange = (e) => {
-      setSearchTerm(e.target.value);
-      console.log(searchTerm);
+    setSearchTerm(e.target.value);
+    console.log(searchTerm);
   };
 
-  if (characterData[0]) {
-    setContext(6);
+  if (employeeData[0]) {
 
     return (
 
 
 
 
-      <><><div>
+      <><div>
         <form className="d-flex" role="search" action={'/employee_directory/' + searchTerm}>
           <input className="form-control me-2" type="search"
             placeholder="Search" aria-label="Search"
             value={searchTerm} onChange={handleChange} />
           <button className="btn btn-outline-success" type="submit">Search</button>
         </form>
-      </div></><div className="col">
-          <h1>{characterData[0].result.name.first + " " + characterData[0].result.name.last}'s Information</h1>
-          {<div>{"Context: " + context}</div>}
-          {<div>{"Name: " + characterData[0].result.name.first + " " + characterData[0].result.name.last}</div>}
-          {<div>{"Username: " + characterData[0].result.username}</div>}
-          {<div>{"Phone Number: " + characterData[0].result.phoneNumber}</div>}
-          {<div>{"Role: " + characterData[0].result.job}</div>}
-          {<div>{"Location: " + characterData[0].result.location.state}</div>}
-          {<div>{"Salary: " + characterData[0].result.salary * 100}</div>}
-          setContext(6);
-          {<div>{"Salary: " + context}</div>}
+      </div>
+        <div className="col">
+          <h1>{employeeData[0].result.name.first + " " + employeeData[0].result.name.last}'s Information</h1>
+          <ul>
+            {<li>{"Name: " + employeeData[0].result.name.first + " " + employeeData[0].result.name.last}</li>}
+            {<li>{"Username: " + employeeData[0].result.username}</li>}
+            {<li>{"Phone Number: " + employeeData[0].result.phoneNumber}</li>}
+            {<li>{"Role: " + employeeData[0].result.job}</li>}
+            {<li>{"Location: " + employeeData[0].result.location.state}</li>}
+            {<li>{"Salary: " + employeeData[0].result.salary * 100}</li>}
+          </ul>
           {<form action="/employee_directory">
             <input type="submit" value="Back" />
           </form>}
-
-
-
-
-
-
-          {/* {<div>{"Gender: " + characterData[0].gender}</div>} */}
-          {/* {<div>{"Skin Color: " + characterData[0].skin_color}</div>} */}
-          {/* {<div>{"Hair Color: " + characterData[0].hair_color}</div>} */}
-          {/* {<div>{"Height: " + characterData[0].height}</div>} */}
-          {/* {<div>{"Eye Color: " + characterData[0].eye_color}</div>}
-          {<div>{"Mass: " + characterData[0].mass}</div>}
-          {<div>{"Homeworld: " + characterData[0].homeworld}</div>}
-          {<div>{"Birth Year: " + characterData[0].birth_year}</div>} */}
-
-
-
-          {/* {characterData.map(char => <div > <a href={'/characters/' + char.id}>{char.name} {char.age} </a></div>)} */}
         </div></>
     );
   }
@@ -101,25 +80,12 @@ const EmployeeId = (props) => {
 
       return <ul className="link-list">{linkMarkup}</ul>;
     } else {
-      return <p>No data found for: {props.sentence}</p>
+      return <p>No employee data found</p>
     }
   }
+
+  render();
 
   //return render()
 };
 export default EmployeeId;
-
-// const characters = () => {
-//     const [characterData, setsetCharacterData] = useState({
-//         characterData: {
-//             name: "", // Default set as 'Small'
-//             gender: "",
-//             skin_color: "",
-//             hair_color: "",
-//             height: "", // Default set as 'New'
-//             eye_color: "", // Default set as 'Left'
-//             mass: "",
-//             homeworld: "",
-//             birth_year: ""
-//         }
-//     }),
