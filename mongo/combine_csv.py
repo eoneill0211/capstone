@@ -26,4 +26,6 @@ df['id'] = [x for x in range(len(df))]
 
 # df.drop("id", axis='columns',inplace=True)
 # df.rename(columns = {'id2':'id'}, inplace = True)
+
+
 df.to_csv("output.csv")
