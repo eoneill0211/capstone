@@ -45,13 +45,35 @@ app.post('/employee_directory/search', async (req, res) => {
         const db = client.db(dbName);
         const collection = db.collection(collectionName);
         const regex = new RegExp(searchTerm, 'i'); // Create a case-insensitive regular expression
-        const socks = await collection.find({id: Number(id)}).toArray();
-        res.json(socks);
+        const employee = await collection.find({id: Number(id)}).toArray();
+        res.json(employee);
     } catch (err) {
         console.error('Error:', err);
-        res.status(500).send('Hmm, something doesn\'t smell right... Error searching for socks');
+        res.status(500).send('Hmm, something doesn\'t smell right... Error searching for employee');
     }
 });
+
+
+
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/capatoneDF", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+app.post('/employee_data', async (req, res) => {
+    try {
+        const employee  = req.body;
+        const client = await MongoClient.connect(url);
+        const db = client.db(dbName);
+        const collection = db.collection(collectionName);
+        const result = await collection.insertOne(employee);
+        res.status(201).send(`{"_id":"${result.insertedId}"}`);
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send('Hmm, something doesn\'t smell right... Error adding employee');
+    }
+});
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
