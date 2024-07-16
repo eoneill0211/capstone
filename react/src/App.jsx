@@ -5,6 +5,7 @@ import Employees from './components/Employees'
 import EmployeeId from './components/EmployeeId'
 import Search from './components/Search'
 import Role from './components/Role'
+import Model from './components/Model'
 
 import {
   BrowserRouter,
@@ -21,6 +22,42 @@ function App() {
 
 
   const [data, setData] = useState([]);
+
+
+
+  return (
+
+      <BrowserRouter>
+        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+          <div className="container-fluid">
+            <div className="row">
+
+              <Routes>
+                <Route path="/" element={<Role />} />
+
+                <Route path="/employee_directory" element={<Employees />} />
+                <Route path="/employee_directory/:id" element={<EmployeeId />} />
+                <Route path="/employee_directory/model" element={<Model />} />
+
+
+              </Routes>
+            </div>
+          </div>
+        </main>
+      </BrowserRouter>
+
+  )
+}
+
+
+export default App
+
+
+
+
+
+
+
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -39,31 +76,3 @@ function App() {
 
   //   fetchData();
   // }, []);
-
-
-  return (
-
-      <BrowserRouter>
-        <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-          <div className="container-fluid">
-            <div className="row">
-
-              <Routes>
-                <Route path="/" element={<Role />} />
-
-                <Route path="/employee_directory" element={<Employees />} />
-                <Route path="/employee_directory/:id" element={<EmployeeId />} />
-                {/* <Route path="/add" element={<AddEmployee />} /> */}
-
-
-              </Routes>
-            </div>
-          </div>
-        </main>
-      </BrowserRouter>
-
-  )
-}
-
-
-export default App

@@ -64,6 +64,8 @@ const EmployeeId = (props) => {
             {<li>{"Role: " + employeeData[0].result.job}</li>}
             {<li>{"Location: " + employeeData[0].result.location.state}</li>}
             {<li>{"Salary: " + employeeData[0].result.salary * 100}</li>}
+            {<li>{"id: " + employeeData[0].id}</li>}
+
           </ul>
           {<form action="/employee_directory">
             <input type="submit" value="Back" />
